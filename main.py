@@ -46,9 +46,9 @@ async def _fetch(path: str, params: Optional[dict] = None):
         raise HTTPException(status_code=exc.status_code, detail=str(exc))
 
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 async def health():
-    return {"status": "ok"}
+    return {"status": "ok - checked by @exilonium"}
 
 
 @app.get("/r/{subreddit}/{sort}")
@@ -58,7 +58,8 @@ async def subreddit_listing(
     limit: int = Query(25, ge=1, le=100),
     after: Optional[str] = None,
     t: Optional[str] = Query(
-        None, description="time filter for top/controversial: hour/day/week/month/year/all"
+        None,
+        description="time filter for top/controversial: hour/day/week/month/year/all",
     ),
 ):
     if sort not in {"hot", "new", "top", "rising", "controversial"}:
