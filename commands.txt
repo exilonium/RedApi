@@ -1,0 +1,44 @@
+# Health check
+curl http://localhost:8080/health
+
+# Subreddit listings — sort is hot/new/top/rising/controversial
+curl http://localhost:8080/r/python/hot
+curl http://localhost:8080/r/python/new
+curl http://localhost:8080/r/python/rising
+curl "http://localhost:8080/r/python/top?t=week"          # t: hour/day/week/month/year/all
+curl "http://localhost:8080/r/python/controversial?t=month"
+curl "http://localhost:8080/r/python/hot?limit=50"
+curl "http://localhost:8080/r/python/hot?limit=10&after=t3_abc123"   # pagination
+
+# Subreddit info
+curl http://localhost:8080/r/python/about
+
+# Post + comments
+curl http://localhost:8080/r/python/comments/abc123
+curl "http://localhost:8080/r/python/comments/abc123?sort=top"       # sort: confidence/top/new/controversial/old/qa
+curl http://localhost:8080/comments/abc123                            # short form, no subreddit needed
+
+# User profile
+curl http://localhost:8080/user/spez/about
+
+# User listings — sort is overview/submitted/comments/upvoted/gilded
+curl http://localhost:8080/user/spez/overview
+curl http://localhost:8080/user/spez/submitted
+curl http://localhost:8080/user/spez/comments
+curl "http://localhost:8080/user/spez/submitted?limit=50&after=t3_xyz789"
+
+# Search
+curl "http://localhost:8080/search?q=rust"
+curl "http://localhost:8080/search?q=rust&sort=new"                   # sort: relevance/hot/top/new/comments
+curl "http://localhost:8080/search?q=rust&subreddit=programming"      # scoped to one subreddit
+curl "http://localhost:8080/search?q=rust&subreddit=programming&sort=top&limit=50"
+
+# Front page (r/popular-style)
+curl http://localhost:8080/best
+curl "http://localhost:8080/best?limit=10"
+
+# Raw passthrough — any reddit.com JSON path through the same fallback chain
+curl http://localhost:8080/raw/r/aww/top
+curl "http://localhost:8080/raw/r/aww/top?t=day"
+curl http://localhost:8080/raw/r/funny/about
+curl "http://localhost:8080/raw/r/funny/search?q=cats&restrict_sr=1"
