@@ -92,5 +92,5 @@ MAX_RETRIES_PER_TIER = 3
 BACKOFF_BASE_SECONDS = 0.75
 REQUEST_TIMEOUT = 10.0
 
-CACHE_TTL_SECONDS = 30  # short-lived cache to absorb bursts of identical calls
+CACHE_TTL_SECONDS = 10  # short-lived cache to absorb bursts of identical calls
 CACHE_STALE_MAX_SECONDS = 600  # serve-stale-on-total-failure window
