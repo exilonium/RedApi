@@ -112,9 +112,19 @@ async def search(
     q: str,
     subreddit: Optional[str] = None,
     sort: str = "relevance",
+    t: Optional[str] = Query(
+        None,
+        description="time filter: hour/day/week/month/year/all",
+    ),
     limit: int = Query(25, ge=1, le=100),
 ):
+    if sort not in {"relevance", "hot", "top", "new", "comments"}:
+        raise HTTPException(400, "sort must be one of relevance/hot/top/new/comments")
+    if t and t not in {"hour", "day", "week", "month", "year", "all"}:
+        raise HTTPException(400, "t must be one of hour/day/week/month/year/all")
     params = {"q": q, "sort": sort, "limit": limit}
+    if t:
+        params["t"] = t
     path = f"/r/{subreddit}/search" if subreddit else "/search"
     if subreddit:
         params["restrict_sr"] = 1
